@@ -45,6 +45,7 @@
 .news-card img {
   width: 100%;
   border-radius: 20px;
+  height: 100%;
 }
 
 @media only screen and (max-width: 900px) {
