@@ -1,25 +1,36 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AppContext } from "../Context/context";
 import NewsCard from "./NewsCard";
 
 function NewsGrid() {
   const [news, setNews] = useState([]);
 
+  const myNews = useContext(AppContext);
+
   useEffect(() => {
-    axios
-      .get(
-        "https://newsapi.org/v2/everything?q=apple&from=2023-02-12&to=2023-02-12&sortBy=popularity&apiKey=bd0e8817e8d24bac8a1430910931bbd4"
-      )
-      .then((data) => {
-        setNews([...data.data.articles]);
-      });
+    axios.get(myNews.newsApi).then((data) => {
+      setNews([...data.data.articles]);
+    });
   }, []);
+
+  useEffect(() => {
+    axios.get(myNews.newsApi).then((data) => {
+      setNews([...data.data.articles]);
+    });
+  }, [myNews.newsApi]);
 
   return (
     <>
       <div className="news-grid">
         {news.map((x, y) => (
-          <NewsCard img={x.urlToImage} title={x.title} key={y} />
+          <NewsCard
+            img={x.urlToImage}
+            title={x.title}
+            url={x.url}
+            publishedAt={x.publishedAt}
+            key={y}
+          />
         ))}
       </div>
     </>
